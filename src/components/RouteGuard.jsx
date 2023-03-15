@@ -1,18 +1,26 @@
 import React from 'react';
 import { Route, Navigate, Outlet } from 'react-router-dom';
+import auth from '../helpers/auth'; 
+
+const RouteGuard = ({ path }) => {
  
-const RouteGuard = ({ element: Component, ...rest }) => {
- 
-   function isLogged() {
-       let flag = false;
-       sessionStorage.getItem("username") ? flag=true : flag=false
-       console.log(flag);
-       return flag
+   const {isLogged, getStatus} = auth();
+   
+   if (path === "/dashboard"){
+       return (
+            getStatus() !== "setup" ? <Outlet /> : <Navigate replace to="/setup"/>
+       );
    }
- 
-   return (
-        isLogged() ? <Outlet /> : <Navigate replace to="/login"/>
-   );
+   else if (path === "/setup" ) {
+       return (
+            getStatus() === "setup" ? <Outlet /> : <Navigate replace to="/dashboard"/>
+       );
+   }
+   else {
+       return (
+            isLogged() ? <Outlet /> : <Navigate replace to="/login"/>
+       );
+   }
 };
  
 export default RouteGuard;

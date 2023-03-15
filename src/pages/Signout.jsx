@@ -8,7 +8,7 @@ function Signout() {
     useEffect(()=>{
         sessionStorage.clear();
         toast.success('Déconnecté');
-        usenavigate('/')
+        usenavigate('/');
 
     },[]);
 
