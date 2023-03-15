@@ -1,7 +1,8 @@
 import React from 'react'
 import LoginForm from '../components/Login'
 
-function Login() {
+const Login = () => {
+
     return (
         <div>
             <section className="flex flex-col md:flex-row h-screen items-center">
@@ -13,7 +14,7 @@ function Login() {
                 <LoginForm/>
             </section>
         </div>
-    )
+    );
 }
 
-export default Login
+export default Login;

@@ -1,20 +1,8 @@
 {
   "users": [
     {
-      "id": "f80c5dea-82d1-401b-ad69-07a3f4fe0bb0",
+      "id": "a91e71f8-0984-4174-b82e-efad1399b483",
       "username": "lois",
-      "password": "FBS3RucYPY3cjqu",
-      "email": "loislespes@gmail.com"
-    },
-    {
-      "id": "480284cf-a080-4651-b577-97f86b1014b7",
-      "username": "lois2",
-      "password": "FBS3RucYPY3cjqu",
-      "email": "loislespes@gmail.com"
-    },
-    {
-      "id": "8e7629e2-05b8-4d86-b936-da25de6625c5",
-      "username": "lois3",
       "password": "FBS3RucYPY3cjqu",
       "email": "loislespes@gmail.com"
     }
