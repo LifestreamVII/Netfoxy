@@ -1,28 +1,24 @@
-import React from 'react'
+import { useState } from "react";
 
-function StoragePlans() {
+
+function StoragePlans({amount, setAmount}) {
+    
+const onOptionChange = (e) => {
+    setAmount(parseInt(e.target.value));
+}
+
   return (
     <div>
         <form class="w-full max-w-screen-md mx-auto">
             <fieldset class="space-y-6">
-            <div class="flex items-center justify-between py-4 border-b border-gray-300">
-                <legend class="text-2xl text-gray-700 mr-4">Change Plan</legend>
-                <a href="#" class="font-medium text-gray-500 hover:text-gray-700">Cancel your plan</a>
-            </div>
             <div class="grid sm:grid-cols-4 gap-6">
                 <label for="plan-hobby" class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Hobby</span>
+                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Portfolio</span>
                 <span class="font-bold text-gray-900">
-                    <span class="text-4xl">1</span>
-                    <span class="text-2xl uppercase">GB</span>
+                    <span class="text-4xl">100</span>
+                    <span class="text-2xl uppercase">Mo</span>
                 </span>
-                <span>
-                    <span class="text-xl font-bold text-gray-500">$</span>
-                    <span class="text-xl font-bold text-gray-900 -ml-1">5</span>
-                    <span class="text-xl font-semibold text-gray-500">/</span>
-                    <span class="text-lg font-semibold text-gray-500">mo</span>
-                </span>
-                <input type="radio" name="plan" id="plan-hobby" value="hobby" class="absolute h-0 w-0 appearance-none" />
+                <input type="radio" name="plan" id="plan-hobby" checked={amount === 100} onChange={onOptionChange} value="100" class="absolute h-0 w-0 appearance-none" />
                 <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
                     <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
@@ -32,18 +28,12 @@ function StoragePlans() {
                 </span>
                 </label>
                 <label for="plan-growth" class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Growth</span>
+                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Mini projet</span>
                 <span class="font-bold text-gray-900">
-                    <span class="text-4xl">5</span>
-                    <span class="text-2xl uppercase">GB</span>
+                    <span class="text-4xl">500</span>
+                    <span class="text-2xl uppercase">Mo</span>
                 </span>
-                <span>
-                    <span class="text-xl font-bold text-gray-500">$</span>
-                    <span class="text-xl font-bold text-gray-900 -ml-1">10</span>
-                    <span class="text-xl font-semibold text-gray-500">/</span>
-                    <span class="text-lg font-semibold text-gray-500">mo</span>
-                </span>
-                <input type="radio" name="plan" id="plan-growth" value="growth" class="absolute h-0 w-0 appearance-none" checked />
+                <input type="radio" name="plan" id="plan-growth" checked={amount === 500} value="500" onChange={onOptionChange} class="absolute h-0 w-0 appearance-none" />
                 <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
                     <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
@@ -53,18 +43,12 @@ function StoragePlans() {
                 </span>
                 </label>
                 <label for="plan-business" class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Business</span>
+                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Appli</span>
                 <span class="font-bold text-gray-900">
-                    <span class="text-4xl">10</span>
-                    <span class="text-2xl uppercase">GB</span>
+                    <span class="text-4xl">1</span>
+                    <span class="text-2xl uppercase">Go</span>
                 </span>
-                <span>
-                    <span class="text-xl font-bold text-gray-500">$</span>
-                    <span class="text-xl font-bold text-gray-900 -ml-1">15</span>
-                    <span class="text-xl font-semibold text-gray-500">/</span>
-                    <span class="text-lg font-semibold text-gray-500">mo</span>
-                </span>
-                <input type="radio" name="plan" id="plan-business" value="business" class="absolute h-0 w-0 appearance-none" />
+                <input type="radio" name="plan" id="plan-business" checked={amount === 1024} onChange={onOptionChange} value="1024" class="absolute h-0 w-0 appearance-none" />
                 <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
                     <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
@@ -74,18 +58,12 @@ function StoragePlans() {
                 </span>
                 </label>
                 <label for="plan-enterprise" class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Enterprise</span>
+                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Modern App</span>
                 <span class="font-bold text-gray-900">
-                    <span class="text-4xl">20</span>
-                    <span class="text-2xl uppercase">GB</span>
+                    <span class="text-4xl">4</span>
+                    <span class="text-2xl uppercase">Go</span>
                 </span>
-                <span>
-                    <span class="text-xl font-bold text-gray-500">$</span>
-                    <span class="text-xl font-bold text-gray-900 -ml-1">20</span>
-                    <span class="text-xl font-semibold text-gray-500">/</span>
-                    <span class="text-lg font-semibold text-gray-500">mo</span>
-                </span>
-                <input type="radio" name="plan" id="plan-enterprise" value="enterprise" class="absolute h-0 w-0 appearance-none" />
+                <input type="radio" name="plan" id="plan-enterprise" value="4096" checked={amount === 4096} onChange={onOptionChange} class="absolute h-0 w-0 appearance-none" />
                 <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
                     <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">

@@ -16,6 +16,9 @@ function LoginForm() {
             }).then((resp) => {               
                 if (resp.some(user => user.username === username && user.password === password)) {
                     toast.success('Connecté');
+                    let status = resp.find(user => user.username === username && user.status);
+                    if (status)
+                        sessionStorage.setItem('status',status.status);
                     sessionStorage.setItem('username',username);
                     usenavigate('/')
                 }else{

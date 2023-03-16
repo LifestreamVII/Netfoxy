@@ -13,3 +13,7 @@ html {
   display: flex;
   flex-direction: column;
 }
+
+input[type="radio"]:checked + span {
+  display: block;
+}
