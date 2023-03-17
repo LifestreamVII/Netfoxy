@@ -2,7 +2,7 @@ import { useState } from "react";
 
 
 function StoragePlans({amount, setAmount}) {
-    
+
 const onOptionChange = (e) => {
     setAmount(parseInt(e.target.value));
 }
@@ -58,7 +58,7 @@ const onOptionChange = (e) => {
                 </span>
                 </label>
                 <label for="plan-enterprise" class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">Modern App</span>
+                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">WebApp</span>
                 <span class="font-bold text-gray-900">
                     <span class="text-4xl">4</span>
                     <span class="text-2xl uppercase">Go</span>
