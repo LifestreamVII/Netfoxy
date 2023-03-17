@@ -121,11 +121,11 @@ const handlesubmit = async (e) => {
             dburl: domain,
             dbroot: root
           }
-          let updatedData = {...data, ...newdata};
           if (data.status)
           {
             delete data.status;
           }
+          let updatedData = {...data, ...newdata};
           return fetch("http://localhost:8000/users/"+id, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },

@@ -16,11 +16,13 @@ function LoginForm() {
             }).then((resp) => {               
                 if (resp.some(user => user.username === username && user.password === password)) {
                     toast.success('Connecté');
-                    let status = resp.find(user => user.username === username && user.status);
-                    if (status)
-                        sessionStorage.setItem('status',status.status);
+                    let usritem = resp.find(user => user.username === username);
+                    if (usritem.status)
+                    {
+                        sessionStorage.setItem('status',usritem.status);
+                    }
                     sessionStorage.setItem('username',username);
-                    sessionStorage.setItem('id',status.id);
+                    sessionStorage.setItem('id',usritem.id);
                     usenavigate('/');
                     window.location.reload();
                 }else{
