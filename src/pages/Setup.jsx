@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import StoragePlans from "../components/StoragePlans";
 import auth from "../helpers/auth";
+import UploadFiles from "../components/UploadFiles";
 
 function Setup() {
   const {getUsername} = auth();
@@ -76,7 +77,9 @@ function Setup() {
             <div class="w-2/4 mr-5">
                 <StoragePlans amount={amount} setAmount={setAmount} className="pt-3 pb-3"/>
             </div>
-            
+            <div class="w-2/4 mr-5">
+              <UploadFiles/>
+            </div>
           </div>
 
         </section>
