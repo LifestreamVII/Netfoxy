@@ -35,15 +35,15 @@ function DashboardElement() {
       <div className="flex-auto flex flex-col gap-x-5 justify-between md:flex-row md:justify-around md:items-center">
         <div>
         <UploadFiles></UploadFiles>
-          <p className="text-7xl md:text-9xl">Nom d'utilisateur machine: {dbUsername}</p>
-          <p className="text-xl md:text-3xl capitalize">
+          <p className="text-sm md:mt-9 md:text-xl lg:text-2xl">Nom d'utilisateur machine: {dbUsername}</p>
+          <p className="text-sm md:mt-9 md:text-xl lg:text-2xl">
             Mot de passe de l'utilisateur machine: {dbPassword}
           </p>
         </div>
 
-        <div className="text-lg md:text-5xl lg:text-6xl">
+        <div className="text-sm md:mt-9 md:text-xl lg:text-2xl">
           <p>
-            Racine du site: {dbRoot}
+            Racine du site : {dbRoot}
           </p>
           <div className="text-sm md:mt-9 md:text-xl lg:text-2xl">
             URL du site: <a href={dbUrl} target="_blank" rel="noopener noreferrer"></a>
@@ -54,3 +54,5 @@ function DashboardElement() {
   </div>
   );
 }
+
+export default DashboardElement

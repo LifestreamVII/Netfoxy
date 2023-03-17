@@ -20,7 +20,9 @@ function LoginForm() {
                     if (status)
                         sessionStorage.setItem('status',status.status);
                     sessionStorage.setItem('username',username);
-                    usenavigate('/')
+                    sessionStorage.setItem('id',status.id);
+                    usenavigate('/');
+                    window.location.reload();
                 }else{
                     console.log(resp);
                     toast.error('Identifiants invalides');

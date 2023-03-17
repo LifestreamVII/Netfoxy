@@ -10,7 +10,7 @@ const RouteGuard = ({ path }) => {
        if (isLogged())
        {
         return (
-                    getStatus() !== "setup" ? <Outlet /> : <Navigate replace to="/setup"/>
+                    getStatus() !== "setup" ? <Outlet /> : <Outlet />
                 );
         }
         else{

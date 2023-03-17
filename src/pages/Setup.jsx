@@ -2,15 +2,58 @@ import { useEffect, useState } from 'react'
 import StoragePlans from "../components/StoragePlans";
 import auth from "../helpers/auth";
 import { toast } from "react-toastify";
+import axios from 'axios';
 
 function Setup() {
   const {getUsername} = auth();
+  const {getId} = auth();
   const [storage, setStorage] = useState(100);
   const [user, usernamechange] = useState("");
   const [dbpass, passwordchange] = useState("");
   const [domain, domainchange] = useState("");
   const [root, rootchange] = useState("www");
 
+  async function sendSetupData(data) {
+    axios.post('http://hermajesty.rip:25565/api/setup', data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.data) {
+        throw new Error(`Erreur HTTP - status: ${response.status}`);
+      }
+      if (response.data.task_id){
+        let taskId = response.data.task_id;
+        console.log(`Task ID: ${taskId}`);
+        const intervalId = setInterval(() => {
+          fetch(`http://hermajesty.rip:25565/status/${taskId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(status => {
+            console.log(status);
+            if (status.state === 'SUCCESS') {
+              clearInterval(intervalId);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            clearInterval(intervalId);
+          });
+        }, 1000);
+      }
+      else {
+        throw new Error(`Erreur pendant le traitement, vos données n'ont pas été sauvegardées.`);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
 
   const IsValidate = () => {
     let isproceed = true;
@@ -43,60 +86,31 @@ const handlesubmit = async (e) => {
     let data = { storage, user, dbpass, domain, root };
     if (IsValidate()) {
       console.log(data);
-      fetch('http://hermajesty.rip:5000/api/setup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(taskId => {
-        console.log(`Task ID: ${taskId}`);
-        const intervalId = setInterval(() => {
-          fetch(`http://hermajesty.rip:5000/status/${taskId}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(status => {
-            console.log(status);
-            if (status.state === 'SUCCESS') {
-              clearInterval(intervalId);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-            clearInterval(intervalId);
-          });
-        }, 1000);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-      fetch("http://localhost:8000/users", {
-        method: "POST",
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          storage: storage,
-          dbuser: user,
-          dbpass: dbpass,
-          dburl: domain,
-          dbroot: root
+      await sendSetupData(data)
+      let id = getId();
+      if (id){
+        fetch("http://localhost:8000/users/"+id)
+        .then((response) => {
+          return response.json(); // parse response to JSON
         })
-      }).then((res) => {
-        toast.success('Inscription prise en compte.');
-      }).catch((err) => {
-        toast.error('Erreur lors du traitement :' + err.message);
-      });
+        .then((data) => {
+          let newdata = {
+            storage: storage,
+            dbuser: user,
+            dbpass: dbpass,
+            dburl: domain,
+            dbroot: root
+          }
+          let updatedData = {...data, ...newdata};
+          return fetch("http://localhost:8000/users/"+id, {
+            method: 'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(updatedData)
+          });
+        }).catch((err) => {
+          toast.error('Erreur lors du traitement :' + err.message);
+        });
+      }
     }
 }
   

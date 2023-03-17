@@ -5,31 +5,12 @@
       "username": "lois",
       "status": "setup",
       "password": "FBS3RucYPY3cjqu",
-      "email": "loislespes@gmail.com"
-    },
-    {
+      "email": "loislespes@gmail.com",
       "storage": 100,
-      "dbuser": "lois",
-      "dbpass": "password",
-      "dburl": "mywebsite",
-      "dbroot": "www",
-      "id": "B2ogZfV"
-    },
-    {
-      "storage": 100,
-      "dbuser": "lois",
-      "dbpass": "password",
-      "dburl": "mywebsite",
-      "dbroot": "www",
-      "id": "fgTL4um"
-    },
-    {
-      "storage": 100,
-      "dbuser": "lois",
-      "dbpass": "password",
-      "dburl": "mywebsite",
-      "dbroot": "www",
-      "id": "mF96npt"
+      "dbuser": "errre",
+      "dbpass": "FBS3RucYPY3cjqu",
+      "dburl": "rere",
+      "dbroot": "www"
     }
   ]
 }

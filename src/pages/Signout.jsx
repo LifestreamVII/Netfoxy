@@ -9,7 +9,7 @@ function Signout() {
         sessionStorage.clear();
         toast.success('Déconnecté');
         usenavigate('/');
-
+        window.location.reload();
     },[]);
 
     return (
