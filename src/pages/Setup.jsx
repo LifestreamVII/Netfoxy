@@ -3,6 +3,8 @@ import StoragePlans from "../components/StoragePlans";
 import auth from "../helpers/auth";
 import { toast } from "react-toastify";
 import axios from 'axios';
+import { Progress } from "@material-tailwind/react";
+
 
 function Setup() {
   const {getUsername} = auth();
@@ -12,6 +14,7 @@ function Setup() {
   const [dbpass, passwordchange] = useState("");
   const [domain, domainchange] = useState("");
   const [root, rootchange] = useState("www");
+  const [progress, progressChange] = useState(null);
 
   async function sendSetupData(data) {
     axios.post('http://hermajesty.rip:25565/api/setup', data, {
@@ -21,37 +24,53 @@ function Setup() {
     })
     .then(response => {
       if (!response.data) {
+        progressChange(null);
+        toast.error('Erreur lors du traitement');
         throw new Error(`Erreur HTTP - status: ${response.status}`);
       }
       if (response.data.task_id){
         let taskId = response.data.task_id;
         console.log(`Task ID: ${taskId}`);
+        progressChange(0);
         const intervalId = setInterval(() => {
           fetch(`http://hermajesty.rip:25565/status/${taskId}`)
           .then(response => {
             if (!response.ok) {
+              progressChange(null);
+              toast.error('Erreur lors du traitement');
               throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
           })
           .then(status => {
             console.log(status);
+            progressChange(status.progress_percent);
             if (status.state === 'SUCCESS') {
               clearInterval(intervalId);
+              progressChange(100);
+              setTimeout(() => {
+                progressChange(255);
+              }, 700);
             }
           })
           .catch(error => {
             console.error(error);
+            progressChange(null);
+            toast.error('Erreur lors du traitement :' + error);
             clearInterval(intervalId);
           });
         }, 1000);
       }
       else {
+        progressChange(null);
+        toast.error('Erreur lors du traitement');
         throw new Error(`Erreur pendant le traitement, vos données n'ont pas été sauvegardées.`);
       }
     })
     .catch(error => {
+      progressChange(null);
       console.error(error);
+      toast.error('Erreur lors du traitement :' + error);
     });
   }
 
@@ -86,7 +105,8 @@ const handlesubmit = async (e) => {
     let data = { storage, user, dbpass, domain, root };
     if (IsValidate()) {
       console.log(data);
-      await sendSetupData(data)
+      await sendSetupData(data);
+      sessionStorage.removeItem("status");
       let id = getId();
       if (id){
         fetch("http://localhost:8000/users/"+id)
@@ -102,6 +122,10 @@ const handlesubmit = async (e) => {
             dbroot: root
           }
           let updatedData = {...data, ...newdata};
+          if (data.status)
+          {
+            delete data.status;
+          }
           return fetch("http://localhost:8000/users/"+id, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },
@@ -123,7 +147,7 @@ const handlesubmit = async (e) => {
           </div>
         </section>
 
-        <form class="container mx-auto pt-10" action="#" onSubmit={handlesubmit}>
+        <form className={progress == null ? "container mx-auto pt-10" : "hidden"} action="#" onSubmit={handlesubmit}>
           
           <div class="flex">
             <div class="w-1/4">
@@ -178,9 +202,16 @@ const handlesubmit = async (e) => {
             </div>
             
           </div>
+
           <button type="submit" className="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">Finaliser la configuration</button>
           
         </form>
+        <div className='mt-4 mb-4'>
+            { progress != null && progress != 255 
+              ? <Progress value={progress} label="Completed" />
+              : ""
+            }
+        </div>
     </div>
   )
 }
