@@ -7,14 +7,25 @@ const RouteGuard = ({ path }) => {
    const {isLogged, getStatus} = auth();
    
    if (path === "/dashboard"){
-       return (
-            getStatus() !== "setup" ? <Outlet /> : <Navigate replace to="/setup"/>
-       );
+       if (isLogged())
+       {
+        return (
+                    getStatus() !== "setup" ? <Outlet /> : <Navigate replace to="/setup"/>
+                );
+        }
+        else{
+            <Navigate replace to="/login"/>
+        }
    }
    else if (path === "/setup" ) {
-       return (
+    if (isLogged()){
+        return (
             getStatus() === "setup" ? <Outlet /> : <Navigate replace to="/dashboard"/>
-       );
+            );
+    }
+    else{
+        <Navigate to="/login"/>
+    }
    }
    else {
        return (

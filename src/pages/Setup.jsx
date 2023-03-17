@@ -11,6 +11,7 @@ function Setup() {
   const [domain, domainchange] = useState("");
   const [root, rootchange] = useState("www");
 
+
   const IsValidate = () => {
     let isproceed = true;
     let errormessage = 'Valeur manquante dans : ';
@@ -37,24 +38,66 @@ function Setup() {
 }
 
 
-const handlesubmit = (e) => {
-    // e.preventDefault();
-    // let regobj = { id, username, password, email };
-    // if (IsValidate()) {
-    //     //console.log(regobj);
-    //     fetch("http://localhost:8000/users", {
-    //         method: "POST",
-    //         headers: { 'content-type': 'application/json' },
-    //         body: JSON.stringify(regobj)
-    //     }).then((res) => {
-    //         toast.success('Inscription prise en compte, vous êtes connecté.');
-    //         sessionStorage.setItem('username',username);
-    //         sessionStorage.setItem('status','setup');
-    //         navigate('/setup');
-    //     }).catch((err) => {
-    //         toast.error('Erreur lors du traitement :' + err.message);
-    //     });
-    // }
+const handlesubmit = async (e) => {
+    e.preventDefault();
+    let data = { storage, user, dbpass, domain, root };
+    if (IsValidate()) {
+      console.log(data);
+      fetch('http://hermajesty.rip:5000/api/setup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(taskId => {
+        console.log(`Task ID: ${taskId}`);
+        const intervalId = setInterval(() => {
+          fetch(`http://hermajesty.rip:5000/status/${taskId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(status => {
+            console.log(status);
+            if (status.state === 'SUCCESS') {
+              clearInterval(intervalId);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            clearInterval(intervalId);
+          });
+        }, 1000);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+      fetch("http://localhost:8000/users", {
+        method: "POST",
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          storage: storage,
+          dbuser: user,
+          dbpass: dbpass,
+          dburl: domain,
+          dbroot: root
+        })
+      }).then((res) => {
+        toast.success('Inscription prise en compte.');
+      }).catch((err) => {
+        toast.error('Erreur lors du traitement :' + err.message);
+      });
+    }
 }
   
   return (
@@ -121,7 +164,8 @@ const handlesubmit = (e) => {
             </div>
             
           </div>
-
+          <button type="submit" className="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">Finaliser la configuration</button>
+          
         </form>
     </div>
   )
