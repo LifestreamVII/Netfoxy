@@ -119,7 +119,9 @@ const handlesubmit = (e) => {
             <div class="w-2/4 mr-5">
                 <StoragePlans amount={storage} setAmount={setStorage} className="pt-3 pb-3"/>
             </div>
-            
+            <div class="w-2/4 mr-5">
+              <UploadFiles/>
+            </div>
           </div>
 
         </form>
