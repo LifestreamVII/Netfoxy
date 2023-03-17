@@ -23,7 +23,7 @@ function DashboardElement() {
             setDbUsername(userdata.dbuser);
             setDbPassword(userdata.dbpass);
             setDbRoot(userdata.dbroot);
-            setDbUrl("https://"+userdata.dburl+".hermajesty.rip/");
+            setDbUrl("http://"+userdata.dburl+".hermajesty.rip/");
           }
         })
         .catch(error => console.log(error));
@@ -47,7 +47,7 @@ function DashboardElement() {
                         </div>
                         <div class="flex-1 text-right md:text-center">
                             <h2 class="font-bold uppercase text-gray-600">Mettre en ligne votre site (.ZIP)</h2>
-                            <UploadFiles></UploadFiles>
+                            <UploadFiles username={dbUsername} root={dbRoot}></UploadFiles>
                         </div>
                     </div>
                 </div>

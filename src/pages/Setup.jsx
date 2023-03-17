@@ -4,17 +4,18 @@ import auth from "../helpers/auth";
 import { toast } from "react-toastify";
 import axios from 'axios';
 import { Progress } from "@material-tailwind/react";
+import { Navigate } from 'react-router-dom';
 
 
 function Setup() {
   const {getUsername} = auth();
   const {getId} = auth();
+  const [progress, progressChange] = useState(null);
   const [storage, setStorage] = useState(100);
   const [user, usernamechange] = useState("");
   const [dbpass, passwordchange] = useState("");
   const [domain, domainchange] = useState("");
   const [root, rootchange] = useState("www");
-  const [progress, progressChange] = useState(null);
 
   async function sendSetupData(data) {
     axios.post('http://hermajesty.rip:25565/api/setup', data, {
@@ -126,10 +127,15 @@ const handlesubmit = async (e) => {
             delete data.status;
           }
           let updatedData = {...data, ...newdata};
-          return fetch("http://localhost:8000/users/"+id, {
+          fetch("http://localhost:8000/users/"+id, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(updatedData)
+          }).then(()=>{
+            toast.success('Compte configuré avec succès');
+            Navigate("/dashboard");
+          }).catch((err) => {
+            toast.error('Erreur lors du traitement :' + err.message);
           });
         }).catch((err) => {
           toast.error('Erreur lors du traitement :' + err.message);
