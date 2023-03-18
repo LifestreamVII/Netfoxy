@@ -95,7 +95,7 @@ function FileUpload({username, root}) {
       </form>
       <div className='pt-4 pb-4'>
             { progress != null && progress != 255 
-              ? <Progress value={progress} label="Completed" />
+              ? <Progress value={progress} label="complété" />
               : ""
             }
       </div>

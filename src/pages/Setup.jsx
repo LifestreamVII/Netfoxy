@@ -157,14 +157,14 @@ const handlesubmit = async (e) => {
           
           <div class="flex">
             <div class="w-1/4">
-              <h3 class="text-blue-900 text-sm font-bold">Créer votre base de données</h3>
-              <p class="text-sm text-gray-500">Informations désirées pour la connexion MySQL</p>
+              <h3 class="text-blue-900 text-sm font-bold">Créer votre environnement serveur</h3>
+              <p class="text-sm text-gray-500">Informations désirées pour la connexion FTP et MySQL</p>
             </div>
             
             <div class="w-1/4 mr-5">
               <label className="block text-gray-700 text-sm font-bold mb-2" for="username">Nom d'utilisateur</label>
               <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="inline-full-name" type="text" required value={user} onChange={e => usernamechange(e.target.value)} />
-              <p className='text-gray-500 text-sm pt-3 italic'>Le nom de la base de données sera basé sur le pseudo que vous avez indiqué lors de votre inscription.</p>
+              <p className='text-gray-500 text-sm pt-3 italic'>Le nom de la base de données sera basé sur le pseudo que vous indiquerez</p>
             </div>
             
             <div class="w-1/4">
@@ -214,7 +214,7 @@ const handlesubmit = async (e) => {
         </form>
         <div className='mt-4 mb-4'>
             { progress != null && progress != 255 
-              ? <Progress value={progress} label="Completed" />
+              ? <Progress value={progress} label="complété" />
               : ""
             }
         </div>

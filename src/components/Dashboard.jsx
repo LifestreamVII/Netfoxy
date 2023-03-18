@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import UploadFiles from "../components/UploadFiles";
 import auth from '../helpers/auth';
+import { toast } from "react-toastify";
+import getStorageRun from '../helpers/getStorage';
 
 function DashboardElement() {
   const [dbUsername, setDbUsername] = useState('');
   const [dbPassword, setDbPassword] = useState('');
   const [dbRoot, setDbRoot] = useState('');
   const [dbUrl, setDbUrl] = useState('');
+  const [storage, setStorageSpace] = useState(null); 
   const mysql = "localhost:3306";
   const phpmyadminurl = "http://pma.hermajesty.rip/phpmyadmin";
   const {getUsername} = auth();
-
+  
   const usrname = getUsername();
+
+  const stoStats = async () => {
+    const {stoErr, getStorage} = getStorageRun();
+    const sto = await getStorage(dbUsername);
+    console.log(sto);
+    if (!stoErr && sto) {
+      setStorageSpace(sto);
+    }
+    else {
+      toast.error(stoErr);
+    }
+  }
 
   useEffect(() => {
     if (usrname){
@@ -29,6 +44,12 @@ function DashboardElement() {
         .catch(error => console.log(error));
     }
   }, []);
+
+  useEffect(() => {    
+    if (dbUsername){
+      stoStats();
+    }
+  }, [dbUsername])
 
   return (
     <div>
@@ -150,7 +171,7 @@ function DashboardElement() {
                         </div>
                         <div class="flex-1 text-right md:text-center">
                             <h2 class="font-bold uppercase text-gray-600">Serveur FTP</h2>
-                            <p class="font-bold text-1xl">URL : ftp://hermajesty.rip<span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
+                            <p class="font-bold text-1xl">Hôte : ftp://hermajesty.rip<span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
                             <p class="font-bold text-1xl">Login : {dbUsername}<span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
                             <p class="font-bold text-1xl">Pass : {dbPassword}<span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
                         </div>
@@ -158,6 +179,27 @@ function DashboardElement() {
                 </div>
                 
             </div>
+            {
+              storage != null && storage != undefined  
+              ?
+              <div class="w-full md:w-1/2 xl:w-1/3 p-6">
+      
+                  <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5">
+                      <div class="flex flex-row items-center">
+                          <div class="flex-shrink pr-4">
+                              <div class="rounded-full p-5 bg-green-600"><i class="fa fa-wallet fa-2x fa-inverse"></i></div>
+                          </div>
+                          <div class="flex-1 text-right md:text-center">
+                              <h2 class="font-bold uppercase text-gray-600">Stockage</h2>
+                              <p class="font-bold text-1xl">{storage.used_storage} utilisés sur {storage.total_storage}<span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
+                          </div>
+                      </div>
+                  </div>
+                  
+              </div>
+              :
+              ""
+            }
         </div>
     </div>
 //     <div className="dashboard">

@@ -55,6 +55,7 @@ function RegisterForm() {
                 toast.success('Inscription prise en compte, vous êtes connecté.');
                 sessionStorage.setItem('username',username);
                 sessionStorage.setItem('status','setup');
+                sessionStorage.setItem('id',id);
                 navigate('/setup');
             }).catch((err) => {
                 toast.error('Erreur lors du traitement :' + err.message);
