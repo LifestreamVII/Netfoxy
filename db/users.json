@@ -1,21 +1,5 @@
 {
   "users": [
-    {
-      "id": "196aa869-80d9-4ef4-9d15-11fc3a9454f0",
-      "username": "loislois",
-      "password": "password",
-      "email": "loislespes@gmail.com"
-    },
-    {
-      "id": "a6e74e6a-be5c-44a3-9534-46f1a02d7700",
-      "username": "lois2",
-      "password": "loislois",
-      "email": "loislespes@gmail.com",
-      "storage": 500,
-      "dbuser": "lois2",
-      "dbpass": "loislois",
-      "dburl": "lois2",
-      "dbroot": "www"
-    }
+
   ]
 }
