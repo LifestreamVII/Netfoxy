@@ -20,8 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm run api\" \"npm run web\"",
-    "heroku-postbuild": "npm run build && cp -r build ../api",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,7 +45,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
-    "concurrently": "^7.6.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7"
   }
